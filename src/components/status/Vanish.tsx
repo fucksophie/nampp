@@ -1,5 +1,5 @@
 import { buttonClass } from "../Status"
-import { Player } from "../index"
+import { Player } from "../../index"
 
 const VanishButton = ({ sendJsonMessage, meRef }: {
     sendJsonMessage: any,

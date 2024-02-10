@@ -70,6 +70,7 @@ export interface Message {
 	id: string;
 	a: string;
 	m: string;
+	r?: string;
 
 	t: number;
 
@@ -103,7 +104,8 @@ export default function App() {
 	} = useWebSocket("wss://mpp.yourfriend.lol/ws", {
 		onOpen: () => {
 			sendJsonMessage([{
-				m: "devices"
+				m: "devices",
+				list: []
 			}])
 
 			setInterval(() => {
@@ -131,6 +133,7 @@ export default function App() {
 					meRef.current = z.u;
 					meRef.current.permissions = z.permissions;
 					if (z.motd) {
+						//@ts-expect-error
 						toast(<h1 innerHTML={z.motd}></h1>, { duration: 10000 })
 					}
 					sendJsonMessage([{ m: "ch", _id: decodeURIComponent(location.hash.substring(1)) || "lobby" }])

@@ -18,7 +18,6 @@ export class Key {
   clicks: {
     color: string,
     time: number;
-    id: string
   }[] = [];
 
   type: string;
@@ -28,7 +27,7 @@ export class Key {
   }
 
   constructor(position: number, sharp: boolean, type: string, piano: {
-    ctx: any, keys: Key[]
+    ctx: any, keys: Key[], canvas: HTMLCanvasElement
   }) {
     this.type = type;
     this.position = position;

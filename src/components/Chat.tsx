@@ -2,7 +2,7 @@ import { h, Fragment, VNode } from "preact";
 import { Message } from "../index"
 import { useRef, useEffect, useState } from "preact/hooks"
 import { Player } from "../index"
-import { renderPerson } from "./People.tsx"
+import { renderPerson } from "./People"
 import { Collection } from "@discordjs/collection"
 
 import { getSetting } from "./status/ClientSettings"
@@ -25,12 +25,15 @@ const Chat = ({ sendJsonMessage, messages, className, children, meRef, peopleRef
     const inputRef = useRef<HTMLInputElement>();
     const [inputFocused, setInputFocused] = useState(false);
 
-    useEffect(async () => {
-        if (!spotifyURL) return;
-        const req = await fetch(cors + btoa("https://open.spotify.com/oembed?url=" + spotifyURL));
-        const body = await req.json();
-        spotifyOembed[spotifyURL] = body;
-        setSpotifyOembed(spotifyOembed);
+    useEffect( () => {
+        async function f() {
+            if (!spotifyURL) return;
+            const req = await fetch(cors + btoa("https://open.spotify.com/oembed?url=" + spotifyURL));
+            const body = await req.json();
+            spotifyOembed[spotifyURL] = body;
+            setSpotifyOembed(spotifyOembed);
+        }
+        f();
     }, [spotifyURL])
     useEffect(() => {
         window.addEventListener("keydown", e => {
@@ -57,9 +60,10 @@ const Chat = ({ sendJsonMessage, messages, className, children, meRef, peopleRef
                 <span className="overflow-y-scroll">
                     {
                         messages.map((z, i) => {
+                            console.log(i);
                             if (z.p) {
                                 return <div style={{
-                                    opacity: i / 16
+                                    opacity: 16 / i
                                 }} class="flex align-center items-center transition-all" id={"msg-" + z.id}
                                     onContextMenu={(ev) => {
                                         inputRef.current!.focus();
@@ -84,7 +88,7 @@ const Chat = ({ sendJsonMessage, messages, className, children, meRef, peopleRef
                                                 const elem = document.getElementById("msg-" + z.r);
                                                 if (elem.className.includes("highlighted")) return;
                                                 const oldOpacity = elem.style.opacity;
-                                                elem.style.opacity = 1;
+                                                elem.style.opacity = "1";
                                                 elem.style.border = "1px solid " + user.color + "80";
                                                 elem.style.background = user.color + "20";
 

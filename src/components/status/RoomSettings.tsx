@@ -1,7 +1,7 @@
 import { Dialog, Tab, Switch } from '@headlessui/react'
 import { useState, useRef, useEffect } from "preact/hooks"
 import { buttonClass } from "../Status"
-import { Player } from "../../index"
+import { Player, Channel } from "../../index"
 
 const RoomSettingsDialog = ({ roomSettingsCallbackRef, meRef, sendJsonMessage, currentChannel }: {
     roomSettingsCallbackRef: { current: (bool) => void },

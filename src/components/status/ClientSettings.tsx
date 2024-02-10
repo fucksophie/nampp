@@ -1,6 +1,7 @@
 import { Dialog, Tab, Switch } from '@headlessui/react'
 import { useState, useRef, useEffect } from "preact/hooks"
 import { buttonClass } from "../Status"
+import {Fragment} from "preact"
 
 const settingCache: Record<string, boolean> = {}
 

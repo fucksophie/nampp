@@ -8,7 +8,7 @@ const NewRoomDialog = ({ newRoomCallbackRef, sendJsonMessage }: {
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [visibleEnabled, setVisibleEnabled] = useState(true);
-    const inputRef = useRef();
+    const inputRef = useRef<HTMLInputElement>();
 
     newRoomCallbackRef.current = (e) => {
         setIsOpen(e);
@@ -43,7 +43,7 @@ const NewRoomDialog = ({ newRoomCallbackRef, sendJsonMessage }: {
                             setIsOpen(false)
                             sendJsonMessage([{
                                 m: "ch",
-                                _id: inputRef.current.value || "lobby",
+                                _id: inputRef?.current?.value || "lobby",
                                 set: {
                                     visible: visibleEnabled
                                 }

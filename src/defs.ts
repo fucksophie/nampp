@@ -1,5 +1,6 @@
 import { Player, Message, Channel, ChannelSettings } from "./index";
 import { Collection } from "@discordjs/collection";
+import EventEmitter from "eventemitter3"
 
 declare global {
   interface Window {
@@ -10,6 +11,9 @@ declare global {
       channels: Channel[];
       chSettings: ChannelSettings;
       currentChannel: Channel;
+      emitter: EventEmitter
+      me: Player;
+      ws: WebSocket | EventSource;
     };
     MPP?: any;
   }

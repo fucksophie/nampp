@@ -12,6 +12,10 @@ const Cursors = ({peopleRef, meRef, sendJsonMessage}: {
 }) => {
     let x = 0;
     let y = 0;
+    
+    let prevX = 0;
+    let prevY = 0;
+
     function moveMouse(e) {
         x = e.clientX/window.innerWidth*100;
         y = e.clientY/window.innerHeight*100;
@@ -23,10 +27,14 @@ const Cursors = ({peopleRef, meRef, sendJsonMessage}: {
     }, []);
     useEffect(() => {
         let intrvl = setInterval(() => {
-            sendJsonMessage([{
-                m: "m",
-                x,y
-            }])
+            if(prevX != x || prevY != y) {
+                prevX = x;
+                prevY = y;
+                sendJsonMessage([{
+                    m: "m",
+                    x,y
+                }])
+            }
         }, 40)
         return () => clearInterval(intrvl);
     }, []);
