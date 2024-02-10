@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "jsx": "react",
+        "jsxFactory": "h",
+        "jsxFragmentFactory": "Fragment",
+        "target": "ESNext",
+        "moduleResolution": "Node"
+    },
+    "include": ["src/**/*"],
+    "exclude": ["src/**/*.js"]
+}
