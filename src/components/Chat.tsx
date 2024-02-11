@@ -7,25 +7,25 @@ import { Collection } from "@discordjs/collection"
 
 import { getSetting } from "./status/ClientSettings"
 
-const Chat = ({ sendJsonMessage, messages, className, children, meRef, peopleRef }: {
+const Chat = ({ sendJsonMessage, messages, className, children, meRef, peopleRef, inputRef, dmingUser }: {
     messages: Message[],
     sendJsonMessage: any,
     className: string,
     children: VNode[] | VNode,
     meRef: { current: Player },
     peopleRef: { current: Collection<string, Player> },
+    inputRef: { current: HTMLInputElement },
+    dmingUser: any
 }) => {
     let cors = "https://cors.lukewarmcat.workers.dev/"
     let placeholderMeme = "https://github.com/mppnet/mppbackend/commit/6b933ddb976096a542c5de58dcbc39a8ac825350";
-    const [replyingTo, setReplyingTo] = useState("");
+    const [replyingTo, setReplyingTo] = useState(undefined);
 
     const [spotifyURL, setSpotifyURL] = useState("");
     const [spotifyOembed, setSpotifyOembed] = useState({});
-
-    const inputRef = useRef<HTMLInputElement>();
     const [inputFocused, setInputFocused] = useState(false);
 
-    useEffect( () => {
+    useEffect(() => {
         async function f() {
             if (!spotifyURL) return;
             const req = await fetch(cors + btoa("https://open.spotify.com/oembed?url=" + spotifyURL));
@@ -35,11 +35,23 @@ const Chat = ({ sendJsonMessage, messages, className, children, meRef, peopleRef
         }
         f();
     }, [spotifyURL])
+
+    useEffect(() => {
+        if (!replyingTo && dmingUser[0]) {
+            inputRef.current.placeholder = "Direct messaging user " + dmingUser[0];
+        } else if (replyingTo && !dmingUser[0]) {
+            inputRef.current.placeholder = "Replying to " + replyingTo.p.name + " (" + replyingTo.a + ")";
+        } else if (!replyingTo && !dmingUser[0]) {
+            inputRef.current.placeholder = placeholderMeme;
+        } else if (replyingTo && dmingUser[0]) {
+            inputRef.current.placeholder = "Direct messaging user " + dmingUser[0] + ", and replying to " + replyingTo.p.name + " (" + replyingTo.a + ")";
+        }
+    }, [dmingUser, replyingTo])
+
     useEffect(() => {
         window.addEventListener("keydown", e => {
             if (e.key == "Enter") {
                 setInputFocused(z => !z)
-                inputRef.current.placeholder = placeholderMeme;
                 inputRef.current!.focus();
             }
             if (e.key == "Escape") {
@@ -49,7 +61,6 @@ const Chat = ({ sendJsonMessage, messages, className, children, meRef, peopleRef
 
         inputRef.current!.addEventListener("click", () => {
             setInputFocused(z => true)
-            inputRef.current.placeholder = placeholderMeme;
 
         })
     }, [])
@@ -60,18 +71,15 @@ const Chat = ({ sendJsonMessage, messages, className, children, meRef, peopleRef
                 <span className="overflow-y-scroll">
                     {
                         messages.map((z, i) => {
-                            console.log(i);
                             if (z.p) {
                                 return <div style={{
                                     opacity: 16 / i
                                 }} class="flex align-center items-center transition-all" id={"msg-" + z.id}
                                     onContextMenu={(ev) => {
                                         inputRef.current!.focus();
-                                        inputRef.current.placeholder = "Replying to " + z.p.name + " (" + z.a + ")";
-                                        setReplyingTo(z.id);
+                                        setReplyingTo(z);
                                         ev.preventDefault();
                                     }
-
                                     }>
                                     {getSetting("showTimestampsInChat", true) ? <span class="w-28 inline-block font-mono ">{new Date(z.t).toLocaleString().split(", ").at(-1)} </span> : ""}
                                     {getSetting("showUserIdInChat", true) ? <span class="w-14 font-mono mr-1">{z.p._id.slice(0, 6)}</span> : ""}
@@ -210,12 +218,15 @@ const Chat = ({ sendJsonMessage, messages, className, children, meRef, peopleRef
                             let tt = e.target as HTMLInputElement;
                             if (!tt.value) return;
                             if (tt.readOnly) return;
+
+
                             sendJsonMessage([{
-                                m: 'a',
+                                m: dmingUser[0] ? 'dm' : 'a',
                                 message: tt.value,
-                                reply_to: replyingTo
+                                _id: dmingUser[0],
+                                reply_to: replyingTo?.id
                             }])
-                            setReplyingTo(z => "")
+                            setReplyingTo(undefined);
 
                             tt.value = "";
                         }

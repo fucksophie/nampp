@@ -87,6 +87,10 @@ export default function App() {
 
 	const peopleRef = useRef<Collection<string, Player>>(new Collection());
 
+	const inputRef = useRef<HTMLInputElement>();
+
+	const dmingUser = useState("");
+
 	const [messages, setMessages] = useState<Message[]>([]);
 	const [channels, setChannels] = useState<Channel[]>()
 
@@ -259,14 +263,14 @@ export default function App() {
 				<Crown sendJsonMessage={sendJsonMessage} currentChannel={currentChannel} meRef={meRef}></Crown>
 
 				<div className="m-2 z-10 absolute top-0 z-40">
-					<People peopleRef={peopleRef} meRef={meRef} currentChannel={currentChannel}></People>
+					<People peopleRef={peopleRef} meRef={meRef} inputRef={inputRef} dmingUser={dmingUser} currentChannel={currentChannel}></People>
 				</div>
 
 				<div className="h-48 w-full z-10 relative bg-[#00000025] rounded-xl p-1 z-40">
 					<Piano keysRef={keysRef} meRef={meRef} sendJsonMessage={sendJsonMessage}></Piano>
 				</div>
 
-				<Chat className="absolute bottom-0 z-0 rounded-md w-full text-white p-1 z-30" peopleRef={peopleRef} messages={messages} sendJsonMessage={sendJsonMessage} meRef={meRef}>
+				<Chat className="absolute bottom-0 z-0 rounded-md w-full text-white p-1 z-30" peopleRef={peopleRef} messages={messages} inputRef={inputRef} dmingUser={dmingUser} sendJsonMessage={sendJsonMessage} meRef={meRef}>
 					<Status {...{ currentChannel, startQueryingChannelList, endQueryingChannelList, channels, setChannel, peopleRef, sendJsonMessage, meRef }}></Status>
 				</Chat>
 				<div className="absolute top-0 left-0 w-full h-full pointer-events-none z-40">
