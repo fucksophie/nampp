@@ -1,6 +1,12 @@
 /*
-	Four months after his first visit to the clinic, 
-	Oliver has stopped taking Mcat and has cut down his ketamine use
+	They're like, "Hey, what do you stand for?"
+	Pro love, anti-war
+	Like a heartbeat, under that floor
+	Smart feet, walk out the door
+	Came back, hungry for more
+	Paper, plastic, what's it all for?
+	Like an ocean, under that core
+	Magic, to even the score
 */
 
 import { h, Fragment } from "preact";
@@ -88,7 +94,6 @@ export default function App() {
 	const peopleRef = useRef<Collection<string, Player>>(new Collection());
 
 	const inputRef = useRef<HTMLInputElement>();
-
 	const dmingUser = useState("");
 
 	const [messages, setMessages] = useState<Message[]>([]);

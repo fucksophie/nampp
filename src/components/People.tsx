@@ -46,7 +46,7 @@ const PeopleDisplay = ({ peopleRef, meRef, currentChannel, inputRef, dmingUser }
     meRef: { current: Player },
     currentChannel: Channel,
     inputRef: { current: HTMLInputElement },
-    dmingUser: any
+    dmingUser: any,
 }) => {
     return (
         <span className="text-sm">

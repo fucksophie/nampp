@@ -9,6 +9,7 @@ import { PlayAloneButton } from "./status/PlayAlone"
 import { VanishButton } from "./status/Vanish"
 import { ClearChatButton } from "./status/ClearChat"
 import { Collection } from "@discordjs/collection"
+
 export const buttonClass = "p-1 w-full text-ellipsis overflow-hidden bg-neutral-900 border rounded-md";
 
 const Dropdown = (
