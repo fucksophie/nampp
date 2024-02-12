@@ -1,4 +1,3 @@
-import { h, Fragment } from "preact";
 import { useState, useRef } from "preact/hooks"
 import { Channel, Player } from "../index"
 

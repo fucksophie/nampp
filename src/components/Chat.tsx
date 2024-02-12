@@ -1,11 +1,12 @@
-import { h, Fragment, VNode } from "preact";
+import { VNode } from "preact";
 import { Message } from "../index"
-import { useRef, useEffect, useState } from "preact/hooks"
+import { useEffect, useState } from "preact/hooks"
 import { Player } from "../index"
 import { renderPerson } from "./People"
 import { Collection } from "@discordjs/collection"
 
 import { getSetting } from "./status/ClientSettings"
+import { getUserRestrictions } from "./PeoplePopup";
 
 const Chat = ({ sendJsonMessage, messages, className, children, meRef, peopleRef, inputRef, dmingUser }: {
     messages: Message[],
@@ -72,6 +73,9 @@ const Chat = ({ sendJsonMessage, messages, className, children, meRef, peopleRef
                     {
                         messages.map((z, i) => {
                             if (z.p) {
+                                if (getUserRestrictions(z.p._id).includes("chat")) {
+                                    return;
+                                }
                                 return <div style={{
                                     opacity: 16 / i
                                 }} class="flex align-center items-center transition-all" id={"msg-" + z.id}
@@ -155,6 +159,10 @@ const Chat = ({ sendJsonMessage, messages, className, children, meRef, peopleRef
                                     </span>
                                 </div>
                             } else {
+                                if (getUserRestrictions(z.sender._id).includes("chat")
+                                    || getUserRestrictions(z.recipient._id).includes("chat")) {
+                                    return;
+                                }
                                 return <div style={{
                                     opacity: i / 16
                                 }}>

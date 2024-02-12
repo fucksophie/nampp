@@ -25,6 +25,7 @@ import Chat from "./components/Chat"
 import Status from "./components/Status"
 import Cursors from "./components/Cursors"
 import Crown from "./components/Crown"
+import { getUserRestrictions } from "./components/PeoplePopup";
 
 install(config)
 
@@ -142,8 +143,7 @@ export default function App() {
 					meRef.current = z.u;
 					meRef.current.permissions = z.permissions;
 					if (z.motd) {
-						//@ts-expect-error
-						toast(<h1 innerHTML={z.motd}></h1>, { duration: 10000 })
+						toast(<h1 dangerouslySetInnerHTML={z.motd}></h1>, { duration: 10000 })
 					}
 					sendJsonMessage([{ m: "ch", _id: decodeURIComponent(location.hash.substring(1)) || "lobby" }])
 					if (z.token) {
@@ -163,7 +163,7 @@ export default function App() {
 					toast(<div>
 						<h1 class="text-xl">{z.title || "<no title specified>"}</h1>
 						<h4 class="text-sm">{z.target || "<no target specified>"}</h4>
-						<span innerHTML={z.html || z.text}></span>
+						<span dangerouslySetInnerHTML={z.html || z.text}></span>
 					</div>, { duration: 5000 })
 				} else if (z.m == "m") {
 					const person = peopleRef.current.get(z.id);
@@ -180,6 +180,9 @@ export default function App() {
 						};
 					}
 				} else if (z.m == "n") {
+					if(getUserRestrictions(z._id).includes("notes")) {
+						return;
+					}
 					const user = peopleRef.current.get(z.p);
 
 					z.n.forEach(g => {

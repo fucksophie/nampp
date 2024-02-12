@@ -1,4 +1,3 @@
-import { h, Fragment } from "preact";
 import { Player, Channel } from "../index"
 import { Collection } from "@discordjs/collection"
 import { toast } from "react-hot-toast"
