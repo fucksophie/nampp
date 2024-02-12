@@ -1,5 +1,4 @@
-import { h, Fragment } from "preact";
-import { useRef, useEffect, useCallback } from "preact/hooks"
+import { useRef, useEffect } from "preact/hooks"
 import { Player } from '../index'
 
 

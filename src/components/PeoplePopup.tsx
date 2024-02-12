@@ -1,5 +1,5 @@
 import { Player } from "../index"
-import { useEffect, useReducer } from "preact/hooks"
+import { useReducer } from "preact/hooks"
 
 export function getUserRestrictions(id: string) {
     const data = JSON.parse(localStorage.restrictedUsers ?? "{}");
@@ -29,14 +29,14 @@ const PeoplePopup = ({ element, inputRef, player, dmingUser }: {
                 restrictions.push(type);
             }
             setUserRestrictions(player._id, restrictions)
-            forceUpdate();
+            forceUpdate(1);
         }
     }
     return <div style={{
         top: location.top + 10,
         left: location.left - 7,
-        backgroundColor: element.current.firstElementChild.style.backgroundColor
-    }} className="absolute text-white rounded-sm w-max">
+        backgroundColor: (element.current.firstElementChild as HTMLDivElement).style.backgroundColor
+    }} className="absolute text-white rounded-sm w-max z-[100]">
         <button onClick={() => {
             inputRef.current.value += "@" + player._id + " ";
         }}>Mention</button>
@@ -63,7 +63,7 @@ const PeoplePopup = ({ element, inputRef, player, dmingUser }: {
                 restrictions.push("chat");
             }
             setUserRestrictions(player._id, restrictions);
-            forceUpdate();
+            forceUpdate(1);
         }}>
             {getUserRestrictions(player._id).includes("chat") && getUserRestrictions(player._id).includes("notes") ? "Unmute completely" : "Mute completely"}
         </button>

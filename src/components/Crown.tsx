@@ -1,5 +1,3 @@
-import { h, Fragment } from "preact";
-import { Collection } from "@discordjs/collection"
 import { Player, Channel } from "../index"
 
 const Crown = ({ currentChannel, sendJsonMessage, meRef }: {
