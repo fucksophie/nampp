@@ -77,15 +77,15 @@ const Chat = ({ sendJsonMessage, messages, className, children, meRef, peopleRef
                                     return;
                                 }
                                 return <div style={{
-                                    opacity: 16 / i
-                                }} class="flex align-center items-center transition-all" id={"msg-" + z.id}
+                                    opacity: i / 16
+                                }} class="flex align-center items-center transition-all gap-2" id={"msg-" + z.id}
                                     onContextMenu={(ev) => {
                                         inputRef.current!.focus();
                                         setReplyingTo(z);
                                         ev.preventDefault();
                                     }
                                     }>
-                                    {getSetting("showTimestampsInChat", true) ? <span class="w-28 inline-block font-mono ">{new Date(z.t).toLocaleString().split(", ").at(-1)} </span> : ""}
+                                    {getSetting("showTimestampsInChat", true) ? <span class="w-min inline-block font-mono ">{new Date(z.t).toISOString().split("T")[1].replace(/\..*/gm, "")}</span> : ""}
                                     {getSetting("showUserIdInChat", true) ? <span class="w-14 font-mono mr-1">{z.p._id.slice(0, 6)}</span> : ""}
                                     <span style={{
                                         color: z.p.color

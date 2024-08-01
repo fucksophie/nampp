@@ -111,7 +111,7 @@ export default function App() {
 		lastJsonMessage,
 		readyState,
 		getWebSocket,
-	} = useWebSocket("wss://mpp.yourfriend.lol/ws", {
+	} = useWebSocket("wss://mppclone.com", {
 		onOpen: () => {
 			sendJsonMessage([{
 				m: "devices",
@@ -143,7 +143,7 @@ export default function App() {
 					meRef.current = z.u;
 					meRef.current.permissions = z.permissions;
 					if (z.motd) {
-						toast(<h1 dangerouslySetInnerHTML={z.motd}></h1>, { duration: 10000 })
+						toast(<h1 dangerouslySetInnerHTML={{__html: z.motd}}></h1>, { duration: 10000 })
 					}
 					sendJsonMessage([{ m: "ch", _id: decodeURIComponent(location.hash.substring(1)) || "lobby" }])
 					if (z.token) {
@@ -163,7 +163,7 @@ export default function App() {
 					toast(<div>
 						<h1 class="text-xl">{z.title || "<no title specified>"}</h1>
 						<h4 class="text-sm">{z.target || "<no target specified>"}</h4>
-						<span dangerouslySetInnerHTML={z.html || z.text}></span>
+						<span dangerouslySetInnerHTML={{__html: z.html || z.text}}></span>
 					</div>, { duration: 5000 })
 				} else if (z.m == "m") {
 					const person = peopleRef.current.get(z.id);
